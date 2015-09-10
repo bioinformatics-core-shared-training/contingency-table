@@ -1,0 +1,55 @@
+library(shiny)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+library(knitr)
+
+shinyServer(function(input, output){
+  
+  data <- reactive({
+
+      table <- input$table
+      Table <- do.call(rbind,sapply(strsplit(table, "--")[[1]], function(x) strsplit(x, "|",fixed=TRUE)))
+
+      ncol <- ncol(Table)
+      nrow <- nrow(Table)
+      .Table <- matrix(as.numeric(Table), nrow,ncol,byrow=FALSE)
+
+  })
+  
+  
+  output$mytable <- renderPrint({
+    .Table <- data()
+    ncol <- ncol(.Table)
+    nrow <- nrow(.Table)
+    
+    colnames(.Table) <- paste0("Col",1:ncol)
+    
+    .Table <- data.frame(.Table, Total = rowSums(.Table))
+    .Table <- rbind(.Table, colSums(.Table))
+    rownames(.Table) <- c(paste0("Row",1:nrow),"Total")
+    kable(.Table)
+  })
+  
+  output$result <- renderPrint({
+    .Table <- data()
+
+    if(input$test =="chi-squared"){
+      .Test <- chisq.test(.Table,correct=FALSE)
+    } else  .Test <- fisher.test(.Table)
+    
+    .Test
+  })
+  
+  output$frequencies<- renderPrint({
+    .Table <- data()
+     
+     .Test <- chisq.test(.Table,correct=FALSE)
+    .Test$expected
+  })
+  
+  }
+)
+  
+
+input$table <- "273|233|236|258\n281|246|244|229"

@@ -14,7 +14,6 @@ shinyServer(function(input, output){
       ncol <- ncol(Table)
       nrow <- nrow(Table)
       .Table <- matrix(as.numeric(Table), nrow,ncol,byrow=FALSE)
-
   })
   
   
@@ -48,8 +47,28 @@ shinyServer(function(input, output){
     .Test$expected
   })
   
-  }
+  output$distribution <- renderPlot({
+    
+    .Table <- data()
+    
+    if(input$test =="chi-squared"){
+      .Test <- chisq.test(.Table,correct=FALSE)
+    
+      degf <- .Test$parameter
+
+      xmax <- max(4,.Test$statistic)
+      xs <- seq(0, xmax, length.out = 10000)
+      df <- data.frame(X = xs, Y = dchisq(xs,degf))
+      
+      title <- substitute(paste(chi^2, " with ", degf, " degrees of freedom"),list(degf=degf))
+      
+      p <- ggplot(df, aes(x=X,y=Y)) + geom_line() + geom_vline(xintercept=.Test$statistic,col="red") + xlim(0,xmax+1) + ggtitle(title)
+      p
+    }
+    
+  })
+  
+}
 )
   
 
-input$table <- "273|233|236|258\n281|246|244|229"

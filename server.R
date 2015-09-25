@@ -3,6 +3,7 @@ library(ggplot2)
 library(reshape2)
 library(gridExtra)
 library(knitr)
+library(gmodels)
 
 shinyServer(function(input, output){
   
@@ -28,6 +29,17 @@ shinyServer(function(input, output){
     .Table <- rbind(.Table, colSums(.Table))
     rownames(.Table) <- c(paste0("Row",1:nrow),"Total")
     kable(.Table)
+  })
+  
+  output$summary <- renderPrint({
+    .Table <- data()
+    ncol <- ncol(.Table)
+    nrow <- nrow(.Table)
+    
+    colnames(.Table) <- paste0("Col",1:ncol)
+    
+    CrossTable(.Table,chisq = TRUE,fisher=TRUE,prop.c = FALSE,prop.r=TRUE,prop.t = FALSE,prop.chisq = FALSE)
+    
   })
   
   output$result <- renderPrint({

@@ -19,7 +19,7 @@ shinyUI(pageWithSidebar(
   mainPanel(
     tabsetPanel(
 #      tabPanel("Plot",plotOutput("plot")),
-      tabPanel("The data", verbatimTextOutput("mytable")),
+      tabPanel("The data", verbatimTextOutput("mytable"),verbatimTextOutput("summary")),
       tabPanel("Test Result", 
       h3("Expected Frequencies for the table"),
       verbatimTextOutput("frequencies"),

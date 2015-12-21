@@ -11,8 +11,7 @@ shinyUI(pageWithSidebar(
 
     textInput("table", "Enter your data as a table",value="44|40--24|16"),
     helpText("Type the values in your table from left to right. Separate columns with a | and rows with --. You do not need to calculate the column or row totals - the app will do that for you"),
-    radioButtons("test","Type of Test",choices = c("Chi squared"="chi-squared","Fishers"= "fishers")),
-    actionButton("go","Go!")
+    radioButtons("test","Type of Test",choices = c("Chi squared"="chi-squared","Fishers"= "fishers"))
 
     ),
   

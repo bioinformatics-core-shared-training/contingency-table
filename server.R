@@ -1,9 +1,6 @@
 library(shiny)
 library(ggplot2)
-library(reshape2)
-library(gridExtra)
 library(knitr)
-library(gmodels)
 
 shinyServer(function(input, output){
   

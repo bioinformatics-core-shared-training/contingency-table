@@ -83,7 +83,8 @@ function(input, output, session) {
 
     observedWithTotals <- observed %>%
       bind_rows(observed %>% summarize_all(funs(sum(., na.rm = TRUE)))) %>%
-      mutate(Total = as.integer(rowSums(., na.rm = TRUE)))
+      mutate(Total = as.integer(rowSums(., na.rm = TRUE))) %>%
+      mutate_all(funs(as.integer))
 
     rhandsontable(
       observedWithTotals,

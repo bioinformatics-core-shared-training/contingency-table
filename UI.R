@@ -34,8 +34,8 @@ fluidPage(
 
     sidebarPanel(
       fluidRow(
-        column(4, selectInput("numberOfRows", "Rows", choices = 2:6, selected = 2)),
-        column(4, selectInput("numberOfColumns", "Columns", choices = 2:6, selected = 2))
+        column(5, selectInput("numberOfRows", "Rows", choices = 2:6, selected = 2)),
+        column(5, selectInput("numberOfColumns", "Columns", choices = 2:6, selected = 2))
       ),
       helpText("Enter contingency table data in the table below. Note that missing values are treated as zeros."),
       tags$div(style="line-height:50%;", br()),
